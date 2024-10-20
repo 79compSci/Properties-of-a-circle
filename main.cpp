@@ -1,53 +1,56 @@
-  #include <iostream>
-  #include <cmath>
-  using namespace std;
+ #include <iostream>
+using namespace std;
 
-  const double PI = 3.1416;
+// Function declarations
+void getPrices(double& currentPrice, double& oneYearAgo, double& twoYearsAgo);
+void calculateInflation(double currentPrice, double oneYearAgo, double twoYearsAgo, double& inflation1, double& inflation2);
+void outputResults(double currentPrice, double oneYearAgo, double twoYearsAgo, double inflation1, double inflation2);
 
-  // Function declarations
-  double calcDistance(double x1, double y1, double x2, double y2);
-  double calcRadius(double cx, double cy, double px, double py);
-  double calcCircumference(double radius);
-  double calcArea(double radius);
+int main() {
+    double currentPrice, oneYearAgo, twoYearsAgo;
+    double inflation1, inflation2;
 
-  int main() {
-      double cx, cy, px, py;
+    // Get the prices
+    getPrices(currentPrice, oneYearAgo, twoYearsAgo);
+    
+    // Calculate the inflation rates
+    calculateInflation(currentPrice, oneYearAgo, twoYearsAgo, inflation1, inflation2);
+    
+    // Output the results
+    outputResults(currentPrice, oneYearAgo, twoYearsAgo, inflation1, inflation2);
 
-      // Get input from user
-      cout << "Enter the center coordinates of the circle (cx, cy): ";
-      cin >> cx >> cy;
-      cout << "Enter the coordinates of a point on the circumference (px, py): ";
-      cin >> px >> py;
+    return 0;
+}
 
-      // Calculate properties
-      double radius = calcRadius(cx, cy, px, py);
-      double circumference = calcCircumference(radius);
-      double area = calcArea(radius);
+// Function to get input prices
+void getPrices(double& currentPrice, double& oneYearAgo, double& twoYearsAgo) {
+    cout << "Enter the current price of the item: ";
+    cin >> currentPrice;
+    cout << "Enter the price one year ago: ";
+    cin >> oneYearAgo;
+    cout << "Enter the price two years ago: ";
+    cin >> twoYearsAgo;
+}
 
-      // Output results
-      cout << "Radius: " << radius << endl;
-      cout << "Circumference: " << circumference << endl;
-      cout << "Area: " << area << endl;
+// Function to calculate inflation rates
+void calculateInflation(double currentPrice, double oneYearAgo, double twoYearsAgo, double& inflation1, double& inflation2) {
+    inflation1 = (currentPrice - oneYearAgo) / oneYearAgo * 100;
+    inflation2 = (oneYearAgo - twoYearsAgo) / twoYearsAgo * 100;
+}
 
-      return 0;
-  }
-
-  // Function to calculate distance between two points
-  double calcDistance(double x1, double y1, double x2, double y2) {
-      return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
-  }
-
-  // Function to calculate radius
-  double calcRadius(double cx, double cy, double px, double py) {
-      return calcDistance(cx, cy, px, py);
-  }
-
-  // Function to calculate circumference
-  double calcCircumference(double radius) {
-      return 2 * PI * radius;
-  }
-
-  // Function to calculate area
-  double calcArea(double radius) {
-      return PI * pow(radius, 2);
-  }
+// Function to output the results
+void outputResults(double currentPrice, double oneYearAgo, double twoYearsAgo, double inflation1, double inflation2) {
+    cout << "Current Price: " << currentPrice << endl;
+    cout << "Price One Year Ago: " << oneYearAgo << endl;
+    cout << "Price Two Years Ago: " << twoYearsAgo << endl;
+    cout << "Inflation for the past year: " << inflation1 << "%" << endl;
+    cout << "Inflation for the year before last: " << inflation2 << "%" << endl;
+    
+    if (inflation1 > inflation2) {
+        cout << "Inflation is increasing." << endl;
+    } else if (inflation1 < inflation2) {
+        cout << "Inflation is decreasing." << endl;
+    } else {
+        cout << "Inflation is constant." << endl;
+    }
+}
